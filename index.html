@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalTasker - Digital Asset Marketplace</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        dark: {
+                            bg: '#0a0d14',
+                            card: '#121824',
+                            border: '#1e293b',
+                            input: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0d14;
+            color: #f8fafc;
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.3);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(18, 24, 36, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col pb-20 md:pb-0">
+
+    <!-- Top Navigation Bar -->
+    <header class="glass-panel sticky top-0 z-40 w-full border-b border-gray-800 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid font-bold text-lg fa-globe"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg tracking-wide gradient-text">GlobalTasker</h1>
+                    <p class="text-[10px] text-gray-400 font-medium tracking-wider uppercase">Global Exchange Platform</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- Balance Display -->
+                <div class="bg-indigo-950/60 border border-indigo-500/30 rounded-full px-3.5 py-1.5 flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">$</div>
+                    <span id="userBalance" class="text-emerald-400 font-bold text-sm tracking-wide">$0.0200</span>
+                </div>
+
+                <!-- Admin Modal Button -->
+                <button onclick="toggleModal('adminLoginModal')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 w-9 h-9 rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-user-shield text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-1 space-y-6">
+
+        <!-- Announcement Ticker -->
+        <div class="glass-panel rounded-xl p-3 flex items-center gap-3 border border-indigo-500/20">
+            <span class="bg-indigo-600 text-white text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1 uppercase tracking-wider">
+                <i class="fa-solid fa-bullhorn text-[10px]"></i> Notice
+            </span>
+            <div class="overflow-hidden flex-1">
+                <p id="noticeText" class="text-xs text-gray-300 font-medium whitespace-nowrap animate-pulse">
+                    Welcome to GlobalTasker! Sign-up bonus of $0.0200 added. Instant approval for valid Gmail & Social accounts!
+                </p>
+            </div>
+        </div>
+
+        <!-- Live Uptime & Platform Stats -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="glass-panel rounded-xl p-3 border border-gray-800">
+                <p class="text-[11px] text-gray-400 font-medium">Platform Uptime</p>
+                <p class="text-sm font-bold text-indigo-400 mt-1 flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Live 142 Days
+                </p>
+            </div>
+            <div class="glass-panel rounded-xl p-3 border border-gray-800">
+                <p class="text-[11px] text-gray-400 font-medium">Total Payouts</p>
+                <p class="text-sm font-bold text-emerald-400 mt-1">$14,890.50</p>
+            </div>
+            <div class="glass-panel rounded-xl p-3 border border-gray-800">
+                <p class="text-[11px] text-gray-400 font-medium">Active Members</p>
+                <p class="text-sm font-bold text-purple-400 mt-1">28,410</p>
+            </div>
+            <div class="glass-panel rounded-xl p-3 border border-gray-800">
+                <p class="text-[11px] text-gray-400 font-medium">Accounts Bought</p>
+                <p class="text-sm font-bold text-blue-400 mt-1">104,230</p>
+            </div>
+        </div>
+
+        <!-- Earn Categories Section -->
+        <div>
+            <h2 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-cubes text-indigo-400"></i> Sell Digital Assets
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                
+                <!-- Facebook Card -->
+                <div onclick="openSellModal('Facebook')" class="glass-panel rounded-2xl p-4 border border-blue-500/20 hover:border-blue-500/50 cursor-pointer transition transform hover:-translate-y-1 relative overflow-hidden group">
+                    <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-blue-600/10 rounded-full blur-xl group-hover:bg-blue-600/20 transition"></div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-500 flex items-center justify-center text-2xl">
+                            <i class="fa-brands fa-facebook"></i>
+                        </div>
+                        <span id="rateFB" class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs font-bold px-2.5 py-1 rounded-full">
+                            $0.1500 / acc
+                        </span>
+                    </div>
+                    <h3 class="font-bold text-base text-white">Sell Facebook</h3>
+                    <p class="text-xs text-gray-400 mt-1">Aged profiles, minimum 50+ friends required.</p>
+                </div>
+
+                <!-- Gmail Card -->
+                <div onclick="openSellModal('Gmail')" class="glass-panel rounded-2xl p-4 border border-red-500/20 hover:border-red-500/50 cursor-pointer transition transform hover:-translate-y-1 relative overflow-hidden group">
+                    <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-red-600/10 rounded-full blur-xl group-hover:bg-red-600/20 transition"></div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="w-12 h-12 rounded-xl bg-red-600/20 text-red-500 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <span id="rateGmail" class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold px-2.5 py-1 rounded-full">
+                            $0.0800 / acc
+                        </span>
+                    </div>
+                    <h3 class="font-bold text-base text-white">Sell Gmail</h3>
+                    <p class="text-xs text-gray-400 mt-1">Fresh or old accounts with recovery email.</p>
+                </div>
+
+                <!-- Instagram Card -->
+                <div onclick="openSellModal('Instagram')" class="glass-panel rounded-2xl p-4 border border-pink-500/20 hover:border-pink-500/50 cursor-pointer transition transform hover:-translate-y-1 relative overflow-hidden group">
+                    <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-pink-600/10 rounded-full blur-xl group-hover:bg-pink-600/20 transition"></div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-500 flex items-center justify-center text-2xl">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <span id="rateIG" class="bg-pink-500/10 text-pink-400 border border-pink-500/20 text-xs font-bold px-2.5 py-1 rounded-full">
+                            $0.1200 / acc
+                        </span>
+                    </div>
+                    <h3 class="font-bold text-base text-white">Sell Instagram</h3>
+                    <p class="text-xs text-gray-400 mt-1">Verified accounts with profile picture.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Withdraw Section -->
+        <div class="glass-panel rounded-2xl p-5 border border-gray-800">
+            <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-wallet text-emerald-400"></i> Request Payout
+            </h2>
+            <p class="text-xs text-gray-400 mb-4">Fast processing to your international wallet within 24 hours.</p>
+
+            <form id="withdrawForm" onsubmit="handleWithdraw(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-2">Select Payment Gateway</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <label class="border border-gray-700 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-dark-input hover:border-indigo-500 transition">
+                            <input type="radio" name="gateway" value="PayPal" class="accent-indigo-500" checked>
+                            <span class="text-xs font-bold text-white"><i class="fa-brands fa-paypal text-blue-400"></i> PayPal</span>
+                        </label>
+                        <label class="border border-gray-700 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-dark-input hover:border-indigo-500 transition">
+                            <input type="radio" name="gateway" value="Payoneer" class="accent-indigo-500">
+                            <span class="text-xs font-bold text-white"><i class="fa-solid fa-credit-card text-red-400"></i> Payoneer</span>
+                        </label>
+                        <label class="border border-gray-700 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-dark-input hover:border-indigo-500 transition">
+                            <input type="radio" name="gateway" value="Crypto" class="accent-indigo-500">
+                            <span class="text-xs font-bold text-white"><i class="fa-solid fa-coins text-yellow-400"></i> USDT (Crypto)</span>
+                        </label>
+                        <label class="border border-gray-700 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-dark-input hover:border-indigo-500 transition">
+                            <input type="radio" name="gateway" value="Bank" class="accent-indigo-500">
+                            <span class="text-xs font-bold text-white"><i class="fa-solid fa-building-columns text-emerald-400"></i> Wire Bank</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1.5">Select Payout Amount ($ USD)</label>
+                        <select id="withdrawAmount" class="w-full bg-dark-input border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <option value="0.5000">$0.5000 USD</option>
+                            <option value="1.0000">$1.0000 USD</option>
+                            <option value="1.5000">$1.5000 USD</option>
+                            <option value="2.0000">$2.0000 USD</option>
+                            <option value="3.0000">$3.0000 USD</option>
+                            <option value="5.0000">$5.0000 USD</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1.5">Account / Wallet Address</label>
+                        <input type="text" id="withdrawAccount" required placeholder="email@paypal.com or Wallet address" class="w-full bg-dark-input border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 rounded-xl shadow-lg shadow-emerald-600/20 transition">
+                    Submit Withdrawal Request
+                </button>
+            </form>
+        </div>
+
+        <!-- History Section -->
+        <div class="glass-panel rounded-2xl p-5 border border-gray-800">
+            <h2 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-purple-400"></i> Submission History
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-gray-800 text-gray-400 uppercase tracking-wider">
+                            <th class="py-2.5 px-3">Type</th>
+                            <th class="py-2.5 px-3">Details</th>
+                            <th class="py-2.5 px-3">Amount</th>
+                            <th class="py-2.5 px-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userHistoryTable" class="divide-y divide-gray-800 text-gray-300">
+                        <!-- Populated by Javascript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SELL ACCOUNT MODAL -->
+    <div id="sellAccountModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel bg-dark-card border border-gray-800 rounded-2xl max-w-md w-full p-6 relative">
+            <button onclick="toggleModal('sellAccountModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 id="modalPlatformTitle" class="text-lg font-bold text-white mb-1">Sell Account</h3>
+            <p class="text-xs text-gray-400 mb-4">Enter accurate account credentials for verification.</p>
+
+            <form id="sellAccountForm" onsubmit="handleSellSubmit(event)" class="space-y-3">
+                <input type="hidden" id="modalPlatformType">
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Email / Username / Phone</label>
+                    <input type="text" id="accountUsername" required placeholder="user@gmail.com" class="w-full bg-dark-input border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Password</label>
+                    <input type="text" id="accountPassword" required placeholder="••••••••" class="w-full bg-dark-input border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Additional Info / Recovery / 2FA (Optional)</label>
+                    <textarea id="accountExtra" rows="2" placeholder="Recovery email or 2FA codes" class="w-full bg-dark-input border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-3 rounded-xl transition mt-2">
+                    Submit for Approval
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel bg-dark-card border border-gray-800 rounded-2xl max-w-xs w-full p-6 relative">
+            <button onclick="toggleModal('adminLoginModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-base font-bold text-white mb-3">Admin Authentication</h3>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Admin Passkey</label>
+                    <input type="password" id="adminPasswordInput" placeholder="Default: admin123" class="w-full bg-dark-input border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs py-2.5 rounded-xl transition">
+                    Access Admin Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FULL ADMIN PANEL MODAL -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4">
+        <div class="max-w-4xl mx-auto bg-dark-card border border-gray-800 rounded-2xl p-6 relative my-8">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-800">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-indigo-400"></i> Admin Control Center
+                    </h2>
+                    <p class="text-xs text-gray-400">Manage user balances, platform rates, and submissions</p>
+                </div>
+                <button onclick="toggleModal('adminDashboardModal')" class="bg-gray-800 text-gray-300 px-3 py-1.5 rounded-lg text-xs font-bold">
+                    Close Admin
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Balance Adjustment Tool -->
+                <div class="glass-panel rounded-xl p-4 border border-indigo-500/30">
+                    <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-3">User Balance Management</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3
